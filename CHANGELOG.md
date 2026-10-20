@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.3.1] - 2026-10-20
+
+### Added
+
+- **超页时给出「该压哪一块」的建议**：`pages` 体检项现在带 `hints` 数组，包括行距已压到多少、还差几页、按当前行距一页约多少行、至少得减多少行、篇幅最大的模块及其占比、最占篇幅的三个条目、项目介绍合计可省多少行，以及固定的处理顺序（删形容词 → 压最旧经历 → 合并模块 → 删经历前征得同意）
+- 新增 `estimateWeights()` / `estimateLines()` / `visualWidth()` / `pageHints()` 四个可单独调用的估算函数
+- 新增 `tests/pages.test.mjs`
+
+### Changed
+
+- `lint()` 接受 `compression: { attempts, lineSpacing, linesPerPage, charsPerLine }`；没传时只按字符宽度估算，不编造行距信息
+- `api.js` 用版式参数（页边距、正文字号、header 形态）换算出每页行数与每行字数，让建议贴合实际版式而不是拍脑袋
+- 超页文案改为「实际 3 页，目标 1 页，超出 2 页」，消除「超过目标 1 页」的歧义
+
 ## [0.3.0] - 2026-10-20
 
 ### Added
