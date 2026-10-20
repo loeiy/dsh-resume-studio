@@ -17,15 +17,15 @@
 ### 方式 A：GitHub（推荐）
 
 ```powershell
-dsh plugin add github:<你的账号>/dsh-resume-studio
+dsh plugin add github:loeiy/dsh-resume-studio
 ```
 
-把 `<你的账号>` 换成仓库所属的 GitHub 用户或组织。没有构建步骤，装下来即可用；跟随 `main` 更新，改完重装一次即可。
+仓库地址按 `loeiy` 填好。没有构建步骤，装下来即可用；跟随 `main` 更新，改完重装一次即可。fork 之后把 `loeiy` 换成自己的用户名。
 
 固定到某个 tag：
 
 ```powershell
-dsh plugin add github:<你的账号>/dsh-resume-studio#v0.1.0
+dsh plugin add github:loeiy/dsh-resume-studio#v0.1.0
 ```
 
 本机已有仓库时，也可以直接装本地目录（`file:` 是链接语义，改代码重启即生效）：
@@ -45,7 +45,7 @@ dsh plugin add dsh-resume-studio
 ### 方式 C：GitHub Release 里的 tarball（固定版本，不依赖 npm）
 
 ```powershell
-dsh plugin add https://github.com/<你的账号>/dsh-resume-studio/releases/download/v0.1.0/dsh-resume-studio-0.1.0.tgz
+dsh plugin add https://github.com/loeiy/dsh-resume-studio/releases/download/v0.1.0/dsh-resume-studio-0.1.0.tgz
 ```
 
 ### 手动挂载（不经过包管理器）
@@ -69,7 +69,7 @@ dsh plugin add https://github.com/<你的账号>/dsh-resume-studio/releases/down
 ### 只用命令行（不装插件）
 
 ```powershell
-git clone https://github.com/<你的账号>/dsh-resume-studio.git
+git clone https://github.com/loeiy/dsh-resume-studio.git
 cd dsh-resume-studio
 npm install
 node lib/cli.js init --out resume.json

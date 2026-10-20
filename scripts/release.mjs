@@ -71,7 +71,7 @@ const kb = (bytes.length / 1024).toFixed(1)
 // 5. 推断仓库地址（用于写明安装命令）
 const remote = captureSoft('git', ['remote', 'get-url', 'origin'])
 const m = remote.match(/github\.com[:/]([^/]+)\/([^/.]+)/)
-const slug = m ? `${m[1]}/${m[2]}` : '<你的账号>/dsh-resume-studio'
+const slug = m ? `${m[1]}/${m[2]}` : 'loeiy/dsh-resume-studio'
 
 // 6. Release notes
 const notes = `## ${name} ${tag}
