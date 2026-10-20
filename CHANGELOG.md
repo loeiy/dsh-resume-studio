@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.1] - 2026-10-20
+
+### Fixed
+
+- 声明 `inject = ['tools']`。修复安装后无法激活、报 `cannot get property "tools" without inject` 的问题（cordis 要求先声明依赖的服务）
+- `apply` 改为同步注册：`defineTool` 在模块加载阶段解析，避免异步注册造成的时序问题
+
 ## [0.1.0] - 2026-10-20
 
 首个公开版本。
