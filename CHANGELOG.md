@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.3.0] - 2026-10-20
+
+### Added
+
+- `resume_import` 工具：把已有的 `.doc` / `.docx` / `.odt` 简历读成纯文本，复用 LibreOffice Kit（`doc → txt`），不需要 Word COM。CLI 同步新增 `import` 命令
+- `checkCompoundFileIntegrity()`：调用引擎之前先判老版 Office 复合文档是否被截断，直接报「尾部少了 N 字节，请另存为 .docx」，而不是让引擎抛 `invalid-document`
+
+### Changed
+
+- **数字规则改为「只在声称变化时要求证据」**：bullet 里出现提升/降低/优化/缩短等动词却没有数字才告警；纯功能描述与技能清单不再逐条告警；新增汇总规则（≥2 条声称变化且覆盖率 <50%）
+- `meta.allowQualitative`：把这个开关设为 `true`，数字告警降级为 info，对应「没有数据可写、只做定性描述」的场景
+- `resume_render` 直接返回 `issues` 明细，不再需要补一次 `resume_check`
+- 加粗阈值统一为 **25%**（原代码按 30% 判，与 SKILL.md 自相矛盾）
+- `stats` 新增 `claims` 与 `claimRatio`
+- `SKILL.md` 增加「先判断输入形态」，明确旧简历走 `resume_import`，禁止手写解析器与 COM 转换
+
+### Fixed
+
+- 实际生效后 `tests/core.test.mjs` 的 numbers 用例改为断言「声称变化但无数字」
+- 工具数从 5 个增加到 6 个
+
 ## [0.2.0] - 2026-10-20
 
 ### Added

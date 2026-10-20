@@ -61,10 +61,16 @@ test('normalize drops empty fields and keeps order', () => {
   assert.deepEqual(d.basics.fields, [['邮箱', 'a@b.c']])
 })
 
-test('lint flags missing contact and unnumbered bullets', () => {
+test('lint flags missing contact and changes without numbers', () => {
   const d = normalize({
     basics: { name: 'A', fields: [['学历', '本科']] },
-    sections: [{ kind: 'list', title: '技能', bullets: ['负责一些事情'] }],
+    sections: [
+      {
+        kind: 'timeline',
+        title: '工作经历',
+        items: [{ head: '某公司', date: '2021.03 - 至今', bullets: ['优化了发布流程'] }],
+      },
+    ],
   })
   const { issues } = lint(d, {})
   const rules = issues.map((i) => i.rule)

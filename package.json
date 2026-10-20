@@ -1,6 +1,6 @@
 {
   "name": "dsh-resume-studio",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Resume workshop for DeepSeek Harness: structured JSON → HTML / DOCX / PDF, three layouts, auto page fitting and writing checks. 简历工坊：一份 JSON 出 HTML / Word / PDF。",
   "repository": {
     "type": "git",
@@ -34,7 +34,7 @@
     }
   },
   "scripts": {
-    "test": "node --test tests/core.test.mjs tests/plugin.test.mjs",
+    "test": "node --test tests/core.test.mjs tests/plugin.test.mjs tests/lint-rules.test.mjs tests/import.test.mjs",
     "render": "node lib/cli.js init --out out/skeleton.json && node lib/cli.js render --in out/skeleton.json --out out",
     "prepublishOnly": "npm test",
     "publish:npm": "npm publish --registry=https://registry.npmjs.org",

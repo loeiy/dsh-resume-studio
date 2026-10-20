@@ -7,8 +7,23 @@ description: 把粗略的个人经历变成可投递的简历，并输出 HTML /
 
 目标：**一份内容站得住、排版拿得出手、Word 和 PDF 长得一样的简历。**
 
-工具在 `dsh-resume` 插件里：`resume_templates` / `resume_init` / `resume_render` / `resume_check`。
+工具在 `dsh-resume` 插件里：`resume_guide` / `resume_import` / `resume_templates` / `resume_init` / `resume_render` / `resume_check`。
 没有插件时退化为 CLI：`node lib/cli.js render --in resume.json --out out`。
+
+---
+
+## 先判断输入形态（在选版式之前）
+
+| 用户手上是什么 | 怎么做 |
+|---|---|
+| 已有的 **`.doc` / `.docx` / `.odt`** | 先 `resume_import` 读成纯文本，再按第 1 步结构化 |
+| 口述、零散笔记、旧简历的截图 | 直接进第 1 步访谈 |
+| **`.pdf`** | 引擎不支持直接读，请用户另存为 Word 再导入 |
+
+**不要**为了读旧简历去手写 OLE2/CFB 解析器，**不要**用 Word/Excel COM 转换：
+`resume_import` 走的是 DSH 自带的 LibreOffice Kit，一条命令的事；COM 在沙箱里还会因命名管道限制失败。
+
+`.doc` 报「文件不完整 / 少了 N 字节」说明原文件被截断，让用户另存为 `.docx` 再来。
 
 ---
 

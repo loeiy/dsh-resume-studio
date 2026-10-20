@@ -41,12 +41,12 @@ async function loadTools(config = {}) {
   return tools
 }
 
-test('plugin registers five tools', async () => {
+test('plugin registers six tools', async () => {
   assert.equal(plugin.name, 'dsh-resume')
   const tools = await loadTools()
   assert.deepEqual(
     tools.map((t) => t.name),
-    ['resume_render', 'resume_check', 'resume_guide', 'resume_templates', 'resume_init'],
+    ['resume_render', 'resume_check', 'resume_guide', 'resume_templates', 'resume_init', 'resume_import'],
   )
   const render = tools[0]
   assert.equal(render.parameters.type, 'object')
@@ -96,6 +96,7 @@ test('resume_render writes html and docx', async () => {
   assert.ok(fs.existsSync(res.results[0].files.html))
   assert.ok(fs.existsSync(res.results[0].files.docx))
   assert.equal(res.results[0].errors, 0)
+  assert.ok(Array.isArray(res.results[0].issues), 'resume_render 应直接返回体检明细')
 })
 
 test('resume_check reports stats and rules', async () => {
