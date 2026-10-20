@@ -1,0 +1,60 @@
+{
+  "name": "dsh-resume-studio",
+  "version": "0.1.0",
+  "description": "Resume workshop for DeepSeek Harness: structured JSON → HTML / DOCX / PDF, three layouts, auto page fitting and writing checks. 简历工坊：一份 JSON 出 HTML / Word / PDF。",
+  "type": "module",
+  "main": "lib/plugin.js",
+  "exports": {
+    ".": "./lib/plugin.js",
+    "./api": "./lib/api.js",
+    "./cli": "./lib/cli.js"
+  },
+  "bin": {
+    "dsh-resume": "lib/cli.js"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "SKILL.md",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "test": "node --test tests/core.test.mjs tests/plugin.test.mjs",
+    "render": "node lib/cli.js init --out out/skeleton.json && node lib/cli.js render --in out/skeleton.json --out out",
+    "prepublishOnly": "npm test",
+    "publish:npm": "npm publish --registry=https://registry.npmjs.org"
+  },
+  "engines": {
+    "node": ">=20",
+    "dsh": ">=0.2.0-0"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh-tools": "*"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-tools": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "docx": "^9.13.0",
+    "pdf-lib": "^1.17.1"
+  },
+  "keywords": [
+    "dsh-plugin",
+    "deepseek-harness",
+    "resume",
+    "cv",
+    "docx",
+    "pdf",
+    "简历"
+  ],
+  "license": "MIT"
+}

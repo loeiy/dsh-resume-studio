@@ -1,0 +1,24 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [20, 22]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm install
+      - run: npm test
+      - name: smoke render (no PDF, no LibreOffice on CI)
+        run: |
+          node lib/cli.js init --out /tmp/resume.json
+          node lib/cli.js render --in /tmp/resume.json --out /tmp/out --formats html,docx --templates classic,minimal,sidebar

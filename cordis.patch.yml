@@ -1,0 +1,20 @@
+# dsh-resume-studio bundle patch.
+#
+# Mounts the resume workshop into a DSH profile. The plugin registers four
+# tools (`resume_render` / `resume_check` / `resume_templates` / `resume_init`)
+# into the shared tool registry and needs no client-side code.
+#
+# Install:
+#   dsh plugin --profile <name> add dsh-resume-studio
+#
+# Optional defaults (each tool call can still override them):
+# - insert:
+#     - id: resume-studio
+#       name: dsh-resume-studio
+#       config:
+#         outDir: ~/.dsh/resumes/out
+#         template: classic
+#         maxPages: 2
+- insert:
+    - id: resume-studio
+      name: dsh-resume-studio
