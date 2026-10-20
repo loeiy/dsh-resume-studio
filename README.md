@@ -14,13 +14,43 @@
 
 ## 安装
 
-### DSH 用户
+### 方式 A：GitHub（推荐）
 
 ```powershell
-dsh plugin --profile desktop add dsh-resume-studio
+dsh plugin add github:<你的账号>/dsh-resume-studio
 ```
 
-或者手动挂载：编辑 `~/.dsh/profiles/desktop/cordis.patch.yml`，追加
+把 `<你的账号>` 换成仓库所属的 GitHub 用户或组织。没有构建步骤，装下来即可用；跟随 `main` 更新，改完重装一次即可。
+
+固定到某个 tag：
+
+```powershell
+dsh plugin add github:<你的账号>/dsh-resume-studio#v0.1.0
+```
+
+本机已有仓库时，也可以直接装本地目录（`file:` 是链接语义，改代码重启即生效）：
+
+```powershell
+dsh plugin add file:E:\dsh-resume
+```
+
+### 方式 B：npm（发布之后可用）
+
+```powershell
+dsh plugin add dsh-resume-studio
+```
+
+好处是一行装完、有版本号、国内走 npmmirror 镜像。升级：`dsh plugin add dsh-resume-studio@latest`。
+
+### 方式 C：GitHub Release 里的 tarball（固定版本，不依赖 npm）
+
+```powershell
+dsh plugin add https://github.com/<你的账号>/dsh-resume-studio/releases/download/v0.1.0/dsh-resume-studio-0.1.0.tgz
+```
+
+### 手动挂载（不经过包管理器）
+
+编辑 `~/.dsh/profiles/desktop/cordis.patch.yml`，追加：
 
 ```yaml
 - insert:
@@ -28,26 +58,40 @@ dsh plugin --profile desktop add dsh-resume-studio
       name: dsh-resume-studio
       config:
         outDir: ~/.dsh/resumes/out   # 可选：默认输出目录
+        template: classic            # 可选：默认版式
         maxPages: 2                  # 可选：默认目标页数
 ```
 
 重启 DSH 后获得四个工具：`resume_init` / `resume_render` / `resume_check` / `resume_templates`。
 
-### 只用命令行
+> 多个 profile 时用 `dsh plugin --profile <name> add ...` 指定。
+
+### 只用命令行（不装插件）
 
 ```powershell
-npm i -g dsh-resume-studio
-dsh-resume templates
-dsh-resume render --in resume.json --out out --templates classic --max-pages 2
+git clone https://github.com/<你的账号>/dsh-resume-studio.git
+cd dsh-resume-studio
+npm install
+node lib/cli.js init --out resume.json
+node lib/cli.js render --in resume.json --out out --templates classic --max-pages 2
 ```
+
+装了 npm 包时可直接用 `dsh-resume` 命令（`npm i -g dsh-resume-studio`）。
 
 ## 30 秒上手
 
+装好插件后，直接在对话里说：
+
+> 帮我写一份简历，按 SKILL.md 的访谈流程来。
+
+Agent 会调 `resume_init` 建骨架、逐轮问你、再用 `resume_render` 出三件套。
+
+也可以走命令行（仓库内执行，不需要全局安装）：
+
 ```powershell
-dsh-resume init --out resume.json      # 生成骨架
-# 填内容（或让 Agent 按 SKILL.md 的访谈套路问你）
-dsh-resume check  --in resume.json     # 先体检
-dsh-resume render --in resume.json --out out --max-pages 2
+node lib/cli.js init   --out resume.json     # 生成骨架
+node lib/cli.js check  --in resume.json      # 先体检
+node lib/cli.js render --in resume.json --out out --max-pages 2
 ```
 
 产物：`out/<姓名>-简历.html`、`.docx`、`.pdf`。
@@ -160,6 +204,17 @@ npm test        # 14 个用例：解析、校验、三套版式渲染、插件�
 npm run render  # 生成骨架并渲染一套（输出到 out/，已被 gitignore）
 ```
 
+### 发布 Release
+
+```powershell
+npm run release -- --bump patch   # 测试 → 升版本 → 打包到 dist/
+```
+
+产物：`dist/dsh-resume-studio-<version>.tgz` + `dist/release-notes.md`（含 SHA-256 与安装命令）。
+脚本只负责打包，不替你推送；结束时打印 `gh release create` 命令，发不发由你决定。
+
+推 `v*` tag 时，[`.github/workflows/release.yml`](.github/workflows/release.yml) 也会自动跑测试、打包并创建 Release。
+
 写作与访谈规则见 [`SKILL.md`](SKILL.md)，可整份交给 Agent 使用。
 
 ## License
@@ -175,7 +230,11 @@ A resume workshop plugin for [DeepSeek Harness](https://github.com/deepseek-ai/d
 One JSON → **HTML + DOCX + PDF**, three hand-built layouts, automatic page fitting, and content lint (quantified bullets, bold density, entry length). DOCX is the master; PDF is produced from it, so both always paginate identically.
 
 ```bash
-dsh plugin --profile desktop add dsh-resume-studio
+# GitHub (recommended)
+dsh plugin add github:<owner>/dsh-resume-studio
+
+# npm (after the package is published)
+dsh plugin add dsh-resume-studio
 ```
 
 Tools: `resume_init`, `resume_render`, `resume_check`, `resume_templates`.

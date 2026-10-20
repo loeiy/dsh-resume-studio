@@ -29,7 +29,8 @@
     "test": "node --test tests/core.test.mjs tests/plugin.test.mjs",
     "render": "node lib/cli.js init --out out/skeleton.json && node lib/cli.js render --in out/skeleton.json --out out",
     "prepublishOnly": "npm test",
-    "publish:npm": "npm publish --registry=https://registry.npmjs.org"
+    "publish:npm": "npm publish --registry=https://registry.npmjs.org",
+    "release": "node scripts/release.mjs"
   },
   "engines": {
     "node": ">=20",
