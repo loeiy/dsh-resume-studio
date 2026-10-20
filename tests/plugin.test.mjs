@@ -41,12 +41,12 @@ async function loadTools(config = {}) {
   return tools
 }
 
-test('plugin registers four tools', async () => {
+test('plugin registers five tools', async () => {
   assert.equal(plugin.name, 'dsh-resume')
   const tools = await loadTools()
   assert.deepEqual(
     tools.map((t) => t.name),
-    ['resume_render', 'resume_check', 'resume_templates', 'resume_init'],
+    ['resume_render', 'resume_check', 'resume_guide', 'resume_templates', 'resume_init'],
   )
   const render = tools[0]
   assert.equal(render.parameters.type, 'object')
@@ -54,6 +54,22 @@ test('plugin registers four tools', async () => {
   assert.deepEqual(render.parameters.required, ['dataPath'])
   assert.equal(typeof render.output.render, 'function')
   assert.deepEqual(render.output.schema, { type: 'string' })
+})
+
+test('resume_guide serves the guide and can filter one section', async () => {
+  const tools = await loadTools()
+  const guide = tools.find((t) => t.name === 'resume_guide')
+
+  const all = await guide.execute({})
+  assert.match(all, /访谈/)
+  assert.match(all, /加粗/)
+
+  const bold = await guide.execute({ topic: 'bold' })
+  assert.match(bold, /加粗/)
+  assert.ok(bold.length < all.length, '按 topic 过滤后应更短')
+
+  const unknown = await guide.execute({ topic: '不存在的主题' })
+  assert.match(unknown, /未找到/)
 })
 
 test('resume_templates returns the three layouts', async () => {

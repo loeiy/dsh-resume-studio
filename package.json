@@ -1,6 +1,6 @@
 {
   "name": "dsh-resume-studio",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Resume workshop for DeepSeek Harness: structured JSON → HTML / DOCX / PDF, three layouts, auto page fitting and writing checks. 简历工坊：一份 JSON 出 HTML / Word / PDF。",
   "repository": {
     "type": "git",
